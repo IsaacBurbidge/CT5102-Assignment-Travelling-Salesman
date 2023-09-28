@@ -2,12 +2,37 @@ import pandas as pd
 
 data = pd.read_csv("cities.csv")
 
-tableofleastdistances = []
+#tableofleastdistances 
+
+tableofleastdistances = {}
 
 def _create_distance_matrix():
-    for i in data:
-        print(i)
-    
+    i = 0
+    nullList = []
+    for item in data.index:
+        i += 1
+        nullList.append(-1)
+    print("next")
+    j = 0
+    for item in data.index:
+        tableofleastdistances[j] = [nullList]
+        j+=1
+
+def _find_initial_distances():
+    for i in data.index:
+        for j in data.index:
+            if i == j:
+                break
+            else:
+                x_length = data.iloc[i][1] + data.iloc[j][1]
+                y_length = data.iloc[i][2] + data.iloc[j][2]
+                path_length = (x_length*x_length) + (y_length*y_length)
+                path_length = math.sqrt(path_length)
+                tableofleastdistances[i][j] = path_length
+                print(path_length)
+                                
+
+                
 def _is_prime_(Number):
     factoramount = 0
 
@@ -25,7 +50,7 @@ def main():
     #IsPrime = _is_prime_(2)
     #print(IsPrime)
     _create_distance_matrix()
-
+    _find_initial_distances()
 
 main()
 
