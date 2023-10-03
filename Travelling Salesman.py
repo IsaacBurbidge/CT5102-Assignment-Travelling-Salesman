@@ -1,38 +1,78 @@
 import pandas as pd
+import math
 
 data = pd.read_csv("cities.csv")
 
 #tableofleastdistances 
 
-tableofleastdistances = {}
+#tableofleastdistances = []
 
-def _create_distance_matrix():
+visitedcities = []
+
+#distance = 0
+
+#def _create_distance_matrix():
+#    i = 0
+#    nullList = []
+#    for item in data.index:
+#        i += 1
+#        nullList.append(-1)
+#   
+#    for item in data.index:
+##        tableofleastdistances.append(nullList)
+#    print("matrixmade")
+#
+#def _find_initial_distances():
+#    for i in data.index:
+#        for j in data.index:
+#            if i == j:
+#                break
+#            elif tableofleastdistances[i][j] == -1:
+#                x_length = data.at[data.index[i],'X'] + data.at[data.index[j],'X']
+#                y_length = data.at[data.index[i],'Y'] + data.at[data.index[j],'Y']
+#                path_length = (x_length**2) + (y_length**2)
+#                path_length = math.sqrt(path_length)
+#                tableofleastdistances[i][j] = path_length
+#                tableofleastdistances[j][i] = path_length
+#    print("distancesinitialised")
+
+
+def _find_closest_path(currentcity, distance):
     i = 0
-    nullList = []
-    for item in data.index:
-        i += 1
-        nullList.append(-1)
-    print("next")
-    j = 0
-    for item in data.index:
-        tableofleastdistances[j] = [nullList]
-        j+=1
+    currentcitydistancelist = {}
+    for item in tableofleastdistances[currentcity]:
+        currentcitydistancelist[i] = [item]
+        #= tableofleastdistances[currentcity]
+    currentcitydistancelist.sort()
+    nextcity = 0 
+    i = 0
+    while nextcity in visitedcities:
+        citylist = list(currentcitydistancelist) 
+        nextcity = citylist[i][0]
+        i+= 1
+        if(i == len(tableofleastdistances)):
+            break
+    if(i == len(tableofleastdistances)):
+        distance += currentcitydistancelist.get(0)#[0][1]
+        nextcity = 0
+    else:
+        distance += currentcitydistancelist.get(i)#[i][1]
+    visitedcities.append(nextcity)
+    currentcity = nextcity
+    print(currentcity)
+    return currentcity
+                                    
 
-def _find_initial_distances():
-    for i in data.index:
-        for j in data.index:
-            if i == j:
-                break
-            else:
-                x_length = data.iloc[i][1] + data.iloc[j][1]
-                y_length = data.iloc[i][2] + data.iloc[j][2]
-                path_length = (x_length*x_length) + (y_length*y_length)
-                path_length = math.sqrt(path_length)
-                tableofleastdistances[i][j] = path_length
-                print(path_length)
-                                
+def _route_finder():
+    currentcity = 0
+    distance = 0
+    print(len(tableofleastdistances))
+    while len(visitedcities) < len(tableofleastdistances):
+        currentcity = _find_closest_path(currentcity, distance)
 
-                
+    print(distance)
+    print(visitedcities)
+
 def _is_prime_(Number):
     factoramount = 0
 
@@ -47,14 +87,9 @@ def _is_prime_(Number):
         return False
 
 def main():
-    #IsPrime = _is_prime_(2)
-    #print(IsPrime)
-    _create_distance_matrix()
-    _find_initial_distances()
+    #_create_distance_matrix()
+    #_find_initial_distances()
+    _route_finder()
 
 main()
 
-
-
- 
-#(  o   >     l
