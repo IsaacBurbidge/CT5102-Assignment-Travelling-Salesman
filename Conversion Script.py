@@ -1,17 +1,19 @@
 import pandas as pd
 import math
 import numpy as np
-import time
+
 
 data = pd.read_csv("cities.csv")
 
-emptyArray = []
+#emptyArray = []
 
-tableofleastdistances = pd.DataFrame(emptyArray)
+#tableofleastdistances = pd.DataFrame(emptyArray)
 
-for i in data.index:
-    tableofleastdistances = tableofleastdistances.assign(**{str(i): []})
-print(tableofleastdistances)
+#for i in data.index:
+#    tableofleastdistances = tableofleastdistances.assign(**{str(i): []})
+#print(tableofleastdistances)
+
+tableofleastdistances = pd.read_csv("coverteddata.csv")
 
 def _create_distance_matrix():
     i = 0
@@ -20,9 +22,8 @@ def _create_distance_matrix():
         i += 1
         nullList.append(-1)
    
-
+    i = 0
     for item in data.index:
-        i = 0
         tableofleastdistances.loc[len(tableofleastdistances)] = nullList
         i += 1
     print("matrixmade")
@@ -49,5 +50,8 @@ def main():
     _create_distance_matrix()
     #_find_initial_distances()
     _write_to_file()
+
+
+
 
 main()
