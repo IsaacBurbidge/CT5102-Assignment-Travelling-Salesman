@@ -1,6 +1,7 @@
 import pandas as pd
 import math
 
+<<<<<<< Updated upstream
 data = pd.read_csv("cities.csv")
 
 #tableofleastdistances 
@@ -36,13 +37,22 @@ def _find_initial_distances():
                 tableofleastdistances[j][i] = path_length
     print("distancesinitialised")
 
+=======
+data = pd.read_csv("coverteddata.csv")
+
+visitedcities = []
+
+>>>>>>> Stashed changes
 
 def _find_closest_path(currentcity, distance):
     i = 0
-    currentcitydistancelist = {}
+    currentcitydistancelist = []
     for item in tableofleastdistances[currentcity]:
         currentcitydistancelist[i] = [item]
+<<<<<<< Updated upstream
         
+=======
+>>>>>>> Stashed changes
     currentcitydistancelist.sort()
     nextcity = 0 
     i = 0
@@ -69,7 +79,6 @@ def _route_finder():
     print(len(tableofleastdistances))
     while len(visitedcities) < len(tableofleastdistances):
         currentcity = _find_closest_path(currentcity, distance)
-
     print(distance)
     print(visitedcities)
 
@@ -91,9 +100,12 @@ def _write_to_file():
     newdata.to_csv('coverteddata.csv', index=False)
 
 def main():
+<<<<<<< Updated upstream
     _create_distance_matrix()
     _find_initial_distances()
     _write_to_file()
+=======
+>>>>>>> Stashed changes
     _route_finder()
 
 main()
