@@ -25,7 +25,7 @@ def _find_initial_distances():
             elif tableofleastdistances[i][j] == -1:
                 x_length = data.at[data.index[i],'X'] + data.at[data.index[j],'X']
                 y_length = data.at[data.index[i],'Y'] + data.at[data.index[j],'Y']
-                path_length = (x_length**2) + (y_length**2)
+                path_length = (x_length*x_length) + (y_length*y_length)
                 path_length = math.sqrt(path_length)
                 tableofleastdistances[i][j] = path_length
                 tableofleastdistances[j][i] = path_length
