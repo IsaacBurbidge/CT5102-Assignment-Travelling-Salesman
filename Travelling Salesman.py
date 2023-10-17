@@ -1,8 +1,6 @@
 import pandas as pd
 import math
 
-tableofleastdistances = []
-
 visitedcities = []
 
 distance = 0
@@ -14,23 +12,27 @@ visitedcities = []
 
 def _find_closest_path(currentcity, distance):
     i = 0
-    currentcitydistancelist = []
-    for item in tableofleastdistances[currentcity]:
-        currentcitydistancelist[i] = [item]
-    currentcitydistancelist.sort()
+    currentcitydistancedict = {}
+    #print(data.loc[currentcity])
+    for item in data.loc[currentcity]:
+        print(data.at[currentcity, item])
+        currentcitydistancedict[i] = data.at[currentcity, item]
+        i += 1
+    
+    sorteddistancelist = sorted(currentcitydistancedict)
+    print(currentcitydistancedict[0])
     nextcity = 0 
     i = 0
     while nextcity in visitedcities:
-        citylist = list(currentcitydistancelist) 
-        nextcity = citylist[i][0]
-        i+= 1
-        if(i == len(tableofleastdistances)):
+        nextcity = sorteddistancelist[i]
+        i += 1
+        if(i == len(data.index)):
             break
-    if(i == len(tableofleastdistances)):
-        distance += currentcitydistancelist.get(0)#[0][1]
+    if(i == len(data.index)):
+        distance += currentcitydistancedict[0]#[0][1]
         nextcity = 0
     else:
-        distance += currentcitydistancelist.get(i)#[i][1]
+        distance += currentcitydistancedict.get(i)
     visitedcities.append(nextcity)
     currentcity = nextcity
     print(currentcity)
@@ -40,8 +42,7 @@ def _find_closest_path(currentcity, distance):
 def _route_finder():
     currentcity = 0
     distance = 0
-    print(len(tableofleastdistances))
-    while len(visitedcities) < len(tableofleastdistances):
+    while len(visitedcities) < len(data.index):
         currentcity = _find_closest_path(currentcity, distance)
     print(distance)
     print(visitedcities)
@@ -59,14 +60,7 @@ def _is_prime_(Number):
     else:
         return False
 
-def _write_to_file():
-    newdata = pd.DataFrame(tableofleastdistances)
-    newdata.to_csv('coverteddata.csv', index=False)
-
 def main():
-    _create_distance_matrix()
-    _find_initial_distances()
-    _write_to_file()
     _route_finder()
 
 main()
