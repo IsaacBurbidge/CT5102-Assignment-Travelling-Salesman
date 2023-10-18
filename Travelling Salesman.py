@@ -3,53 +3,41 @@ import math
 
 visitedcities = []
 
-distance = 0
-
 data = pd.read_csv("coverteddata.csv")
 
-visitedcities = []
-
-
 def _find_closest_path(currentcity, distance):
-    i = 0
-    currentcitydistancedict = {}
-    #print(data.loc[currentcity])
-    for item in data.loc[currentcity]:
-        print(data.at[currentcity, item])
-        currentcitydistancedict[i] = data.at[currentcity, item]
-        i += 1
-    
+    currentcitydistancedict = list(data.loc[currentcity])
     sorteddistancelist = sorted(currentcitydistancedict)
-    print(currentcitydistancedict[0])
     nextcity = 0 
     i = 0
+    if sorteddistancelist[0] == -1:
+        i = 1
     while nextcity in visitedcities:
-        nextcity = sorteddistancelist[i]
+        currentdistance = sorteddistancelist[i]
+        nextcity = currentcitydistancedict.index(currentdistance)
         i += 1
         if(i == len(data.index)):
             break
     if(i == len(data.index)):
-        distance += currentcitydistancedict[0]#[0][1]
-        nextcity = 0
+        distance += currentcitydistancedict[0]
     else:
-        distance += currentcitydistancedict.get(i)
+        distance += currentcitydistancedict[i]
     visitedcities.append(nextcity)
     currentcity = nextcity
-    print(currentcity)
-    return currentcity
+    return currentcity, distance
                                     
-
 def _route_finder():
     currentcity = 0
     distance = 0
+    visitedcities.append(currentcity)
     while len(visitedcities) < len(data.index):
-        currentcity = _find_closest_path(currentcity, distance)
+        currentcity, distance = _find_closest_path(currentcity, distance)
+    visitedcities.append(0)
     print(distance)
     print(visitedcities)
 
 def _is_prime_(Number):
     factoramount = 0
-
     for i in range(1, Number+1):
         if Number%i == 0:
             factoramount += 1
