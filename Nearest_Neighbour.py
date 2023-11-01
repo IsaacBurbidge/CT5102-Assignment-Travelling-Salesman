@@ -26,30 +26,13 @@ def _find_closest_path(currentcity, distance):
     currentcity = nextcity
     return currentcity, distance
                                     
-def _route_finder():
-    currentcity = 0
+def _route_finder(firstcity, bestdistance):
+    currentcity = firstcity
     distance = 0
     visitedcities.append(currentcity)
     while len(visitedcities) < len(data.index):
         currentcity, distance = _find_closest_path(currentcity, distance)
     visitedcities.append(0)
-    print(distance)
-    print(visitedcities)
+    return distance, visitedcities
 
-def _is_prime_(Number):
-    factoramount = 0
-    for i in range(1, Number+1):
-        if Number%i == 0:
-            factoramount += 1
-            if factoramount > 2:
-                break
-    if factoramount == 2 or Number == 1:
-        return True
-    else:
-        return False
-
-def main():
-    _route_finder()
-
-main()
 
