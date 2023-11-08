@@ -33,6 +33,7 @@ def _route_finder(firstcity, bestdistance):
     while len(visitedcities) < len(data.index):
         currentcity, distance = _find_closest_path(currentcity, distance)
     visitedcities.append(0)
-    return distance, visitedcities
+    print(distance)
+    print(visitedcities)
 
 
