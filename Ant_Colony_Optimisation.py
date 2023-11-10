@@ -69,12 +69,12 @@ def _traverse_graph(startnode):
     return route, totaldistance
 
 
-def _run_ants():
+def _run_ants(pheremones):
     iterations = 15
     bestroute = []
     bestdistance = 0
     for i in range(0, iterations):
-        route, totaldistance = _traverse_graph(random.randint(0,5000))
+        route, totaldistance = _traverse_graph(0)
         if bestroute == []:
             bestroute = route
             bestdistance = totaldistance
@@ -88,7 +88,7 @@ def _run_ants():
 
 
 def _find_shortest_route():
-    _run_ants()
+    _run_ants(pheremones)
 
 
 
