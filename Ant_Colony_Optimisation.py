@@ -7,20 +7,27 @@ data = pd.read_csv("coverteddata.csv")
 pheremones = pd.read_csv("pheremones.csv")
 
 
-def _degrade_pheremones(pheremone):
-    return pheremone*0.95
 
-def _add_pheremones(route):
+def _degrade_pheremones(pheremone):
+    if pheremone == -1:
+        return -1
+    else:
+        return pheremone *0.95
+
+
+def _add_pheremones(route, pheremones):
     for i in range (0, 5000):
         if i == 4999:
-            data.iloc[route[i],route[0]] = data.iloc[route[i],route[0]]*1.3
+            pheremones.iloc[route[i],route[0]] = pheremones.iloc[route[i],route[0]]*1.2
         else:
-            data.iloc[route[i],route[i+1]] = data.iloc[route[i],route[i+1]]*1.3
+            pheremones.iloc[route[i],route[i+1]] = pheremones.iloc[route[i],route[i+1]]*1.2
+    return pheremones
 
-def _apply_pheremone(route):
-    pheremones.apply(_degrade_pheremones)
-    _add_pheremones(route)
-
+def _apply_pheremone(route, pheremones):
+    pheremones = pheremones.map(_degrade_pheremones)
+    pheremones = _add_pheremones(route, pheremones)
+    print(pheremones)
+    return pheremones
 
 def _traverse_graph(startnode):
     ALPHA = 0.9
@@ -50,7 +57,7 @@ def _traverse_graph(startnode):
         if len(jumps_neighbors) > 0:
             next_node = random.choices(jumps_neighbors, weights = jumps_values)[0]
         else:
-            next_node = 0
+            next_node = startnode
 
         totaldistance += data.iat[currentnode, next_node]
         visitedList[next_node] = 0
@@ -61,16 +68,20 @@ def _traverse_graph(startnode):
 
     return route, totaldistance
 
+
 def _run_ants():
-    iterations = 50
+    iterations = 15
     bestroute = []
     bestdistance = 0
     for i in range(0, iterations):
-        route, totaldistance = _traverse_graph(0)
+        route, totaldistance = _traverse_graph(random.randint(0,5000))
         if bestroute == []:
             bestroute = route
             bestdistance = totaldistance
-        _apply_pheremone(route)
+        pheremones = _apply_pheremone(route, pheremones)
+        print(i)
+        print(route)
+        print(totaldistance)
     print(bestroute)
     print(bestdistance)
   
