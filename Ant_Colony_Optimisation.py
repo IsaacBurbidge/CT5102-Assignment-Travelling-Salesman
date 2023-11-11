@@ -3,9 +3,11 @@ import math
 import random
 import numpy
 
-
-
-
+def _find_shortest_route():
+    global pheremones, data
+    data = pd.read_csv("coverteddata.csv")
+    pheremones = pd.read_csv("pheremones.csv")
+    _run_ants()
 
 def _degrade_pheremones(pheremone):
     if pheremone == -1:
@@ -16,10 +18,8 @@ def _degrade_pheremones(pheremone):
 
 def _add_pheremones(route):
     for i in range (0, 5000):
-        if i == 4999:
-            pheremones.iloc[route[i],route[0]] = int((pheremones.iloc[route[i],route[0]]*1.2)//1)
-        else:
-            pheremones.iloc[route[i],route[i+1]] = int((pheremones.iloc[route[i],route[i+1]]*1.2)//1)
+        z = (i+1)%5000
+        pheremones.iloc[route[i],route[z]] = int((pheremones.iloc[route[i],route[z]]*1.2)//1)
     #return pheremones
     print(pheremones)
 
@@ -98,10 +98,7 @@ def _run_ants():
 def _write_to_file():
     pheremones.to_csv('finalpheremones.csv', index = False)
 
-def _find_shortest_route():
-    data = pd.read_csv("coverteddata.csv")
-    pheremones = pd.read_csv("pheremones.csv")
-    _run_ants()
+
     
 
 
