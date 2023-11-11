@@ -3,7 +3,7 @@ import math
 
 visitedcities = []
 
-data = pd.read_csv("coverteddata.csv")
+
 
 def _find_closest_path(currentcity, distance):
     currentcitydistancedict = list(data.loc[currentcity])
@@ -26,7 +26,8 @@ def _find_closest_path(currentcity, distance):
     currentcity = nextcity
     return currentcity, distance
                                     
-def _route_finder(firstcity, bestdistance):
+def _route_finder(firstcity):
+    data = pd.read_csv("coverteddata.csv")
     currentcity = firstcity
     distance = 0
     visitedcities.append(currentcity)

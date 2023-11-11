@@ -2,7 +2,7 @@ import Conversion_Script as cs
 import Nearest_Neighbour as nn
 import Ant_Colony_Optimisation as aco
 import Pheremone_Script as ps
-import Simulated_Anealing as sa
+#import Simulated_Anealing as sa
 import math
 
 
@@ -28,7 +28,7 @@ def _main_menu():
             print("\n\n\n\n")
             _main_menu()
         case "2":
-            nn._route_finder(0,0)
+            nn._route_finder(0)
             print("\n\n\n\n")
             _main_menu()
         case "3":

@@ -2,13 +2,14 @@ import pandas as pd
 import math
 import random
 
-data = pd.read_csv("coverteddata.csv")
+
 
 iterations = 1000
 start_temperature = 800.0
 current_temperature = start_temperature
 
 def _simulated_anealing():
+    data = pd.read_csv("coverteddata.csv")
     global current_temperature, cities
 
 

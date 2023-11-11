@@ -3,8 +3,7 @@ import math
 import random
 import numpy
 
-data = pd.read_csv("coverteddata.csv")
-pheremones = pd.read_csv("pheremones.csv")
+
 
 
 
@@ -100,6 +99,7 @@ def _write_to_file():
     pheremones.to_csv('finalpheremones.csv', index = False)
 
 def _find_shortest_route():
+    data = pd.read_csv("coverteddata.csv")
     pheremones = pd.read_csv("pheremones.csv")
     _run_ants()
     
