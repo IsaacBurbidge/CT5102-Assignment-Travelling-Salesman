@@ -4,7 +4,7 @@ import random
 import numpy
 
 data = pd.read_csv("coverteddata.csv")
-#pheremones = pd.read_csv("pheremones.csv")
+pheremones = pd.read_csv("pheremones.csv")
 
 
 
@@ -67,7 +67,6 @@ def _traverse_graph(startnode):
         currentnode = next_node
         route.append(currentnode)
         steps +=1
-    _add_pheremones(route)
     #_apply_pheremone(route)
     return route, totaldistance
 
@@ -81,6 +80,8 @@ def _run_ants():
         antRouteList = [_traverse_graph(random.randint(0,5000)) for i in range (0, antsperiteration)]
         antRouteList.sort(key = lambda x: x[1])
         #route, totaldistance = _traverse_graph(0)
+        for j in range(0,len(antRouteList)):
+            _add_pheremones(antRouteList[j][0])
         if bestroute == []:
             bestroute = antRouteList[0][0]
             bestdistance = antRouteList[0][1]
@@ -99,7 +100,6 @@ def _write_to_file():
     pheremones.to_csv('finalpheremones.csv', index = False)
 
 def _find_shortest_route():
-    global pheremones
     pheremones = pd.read_csv("pheremones.csv")
     _run_ants()
     
