@@ -72,8 +72,8 @@ def _traverse_graph(startnode):
 
 def _run_ants():
     global pheremones
-    antsperiteration = 1
-    iterations = 1
+    antsperiteration = int(input("How many Ants per iteration?"))
+    iterations = int(input("How many iterations?"))
     bestroute = []
     bestdistance = 0
     for i in range(0, iterations):
