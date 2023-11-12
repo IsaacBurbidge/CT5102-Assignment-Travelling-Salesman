@@ -19,7 +19,7 @@ def _degrade_pheremones(pheremone):
 def _add_pheremones(route):
     for i in range (0, 5000):
         z = (i+1)%5000
-        pheremones.iloc[route[i],route[z]] = int((pheremones.iloc[route[i],route[z]]*1.2)//1)
+        pheremones.iat[route[i],route[z]] = int((pheremones.iloc[route[i],route[z]]*1.2)//1)
     #return pheremones
     print(pheremones)
 
@@ -89,7 +89,7 @@ def _run_ants():
             bestdistance = antRouteList[0][1]
         print(i)
         print(antRouteList[0])
-        #print(totaldistance)
+        print(bestdistance)
         pheremones.map(_degrade_pheremones)
     print(bestroute)
     print(bestdistance)
