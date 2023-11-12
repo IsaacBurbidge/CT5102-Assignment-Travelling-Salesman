@@ -5,7 +5,6 @@ import Pheremone_Script as ps
 #import Simulated_Anealing as sa
 import math
 
-
 def _display_options():
     validoptions = ["1","2","3", "4"]
     userinput = 0
@@ -21,23 +20,21 @@ def _display_options():
     return userinput
     
 def _main_menu():
-    userinput = _display_options()
-    match userinput:
-        case "1":
-            cs._convert_data()
-            print("\n\n\n\n")
-            _main_menu()
-        case "2":
-            nn._route_finder(0)
-            print("\n\n\n\n")
-            _main_menu()
-        case "3":
-            ps._generate_pheremones()
-            aco._find_shortest_route()
-            print("\n\n\n\n")
-            _main_menu()
-        case "4":
-            exit()
+    while True:
+        userinput = _display_options()
+        match userinput:
+            case "1":
+                cs._convert_data()
+                print("\n\n\n\n")
+            case "2":
+                nn._route_finder(0)
+                print("\n\n\n\n")
+            case "3":
+                ps._generate_pheremones()
+                aco._find_shortest_route()
+                print("\n\n\n\n")
+            case "4":
+                exit()
     
 
 def main():
@@ -45,3 +42,6 @@ def main():
 
 
 main()
+
+
+

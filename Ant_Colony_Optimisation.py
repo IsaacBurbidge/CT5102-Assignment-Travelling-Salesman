@@ -3,6 +3,8 @@ import math
 import random
 import numpy
 
+EPSILON=1e-5
+
 def _find_shortest_route():
     global pheremones, data
     data = pd.read_csv("coverteddata.csv")
@@ -18,10 +20,10 @@ def _degrade_pheremones(pheremone):
 
 def _add_pheremones(route):
     for i in range (0, 5000):
-        z = (i+1)%5000
-        pheremones.iat[route[i],route[z]] = int((pheremones.iloc[route[i],route[z]]*1.2)//1)
+        nextindex = (i+1)%5000
+        pheremones.iat[route[i],route[nextindex]] = int((pheremones.iat[route[i],route[nextindex]]*1.2)//1)
     #return pheremones
-    print(pheremones)
+    #print(pheremones)
 
 #def _apply_pheremone(route):
     #pheremones =
@@ -31,28 +33,27 @@ def _add_pheremones(route):
     #print(pheremones)
     #return pheremones
 
+
 def _traverse_graph(startnode):
     ALPHA = 0.9
     BETA = 1.5
     
-    visitedList = {}
-    for i in range(0,5000):
-        visitedList[i] = -1
+    visitedList = list(range(0,5000))
     visitedList[startnode] = 0
     
     route = [startnode]
-    steps = 0
     currentnode = startnode
     totaldistance = 0
     
-    while steps < 5000:
+    for steps in range(0,5000):
         jumps_neighbors = []
         jumps_values = []
         
-        for i in range(0, 5000):
+        for i in range(0,5000):
             if visitedList[i] != 0:
-                pheromone_level = max(pheremones.iat[currentnode, i], 1e-5) #constant added to encourage exploration
-                v = (pheromone_level**ALPHA ) / (data.iat[currentnode, i]**BETA)
+                pheromone_level = max(pheremones.iat[currentnode, i], EPSILON) #constant added to encourage exploration
+                #v = (pheromone_level**ALPHA ) / (data.iat[currentnode, i]**BETA)
+                v = math.pow(pheromone_level,ALPHA) / math.pow(data.iat[currentnode, i], BETA)
                 jumps_neighbors.append(i)
                 jumps_values.append(v)
 
@@ -65,14 +66,14 @@ def _traverse_graph(startnode):
         visitedList[next_node] = 0
         currentnode = next_node
         route.append(currentnode)
-        steps +=1
     #_apply_pheremone(route)
     return route, totaldistance
 
 
 def _run_ants():
-    antsperiteration = 2
-    iterations = 3
+    global pheremones
+    antsperiteration = 1
+    iterations = 1
     bestroute = []
     bestdistance = 0
     for i in range(0, iterations):
@@ -90,7 +91,8 @@ def _run_ants():
         print(i)
         print(antRouteList[0])
         print(bestdistance)
-        pheremones.map(_degrade_pheremones)
+        pheremones = pheremones.map(_degrade_pheremones)
+        print(pheremones)
     print(bestroute)
     print(bestdistance)
     _write_to_file()

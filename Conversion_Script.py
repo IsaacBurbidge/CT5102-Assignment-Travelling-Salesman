@@ -42,5 +42,3 @@ def _convert_data():
     _find_initial_distances()
     _write_to_file()
 
-
-
