@@ -5,6 +5,7 @@ visitedcities = []
 
 #Finds the nearest city to the current city
 def _find_closest_path(currentcity, distance):
+    global data
     currentcitydistancedict = list(data.loc[currentcity])
     sorteddistancelist = sorted(currentcitydistancedict)
     nextcity = 0 
@@ -27,7 +28,8 @@ def _find_closest_path(currentcity, distance):
 
 #External function called to run this script                                    
 def _route_finder(firstcity):
-    data = pd.read_csv("coverteddata.csv") # read the data
+    global data
+    data = pd.read_csv("converteddata.csv") # read the data
     currentcity = firstcity # 
     distance = 0
     visitedcities.append(currentcity)

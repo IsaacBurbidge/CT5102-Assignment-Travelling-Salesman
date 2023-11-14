@@ -1,8 +1,6 @@
 import Conversion_Script as cs
 import Nearest_Neighbour as nn
 import Ant_Colony_Optimisation as aco
-import Pheremone_Script as ps
-#import Simulated_Anealing as sa
 import math
 
 def _display_options():
@@ -30,7 +28,6 @@ def _main_menu():
                 nn._route_finder(0)
                 print("\n\n\n\n")
             case "3":
-                ps._generate_pheremones()
                 aco._find_shortest_route()
                 print("\n\n\n\n")
             case "4":

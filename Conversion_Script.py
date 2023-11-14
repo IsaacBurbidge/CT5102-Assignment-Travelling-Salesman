@@ -8,17 +8,17 @@ data = pd.read_csv("cities.csv")
 tableofleastdistances = []
 
 #Initialises a 5000x5000 matrix (the benchmark)
-def _create_distance_matrix():
-    for i in range(0,5000):
+def _create_distance_matrix(citycount):
+    for i in range(0,citycount):
         nullList = []
-        for j in range(0,5000):
+        for j in range(0,citycount):
             nullList.append(-1)
         tableofleastdistances.append(nullList)
 
 #Sets up the matrix to be the euclidean distances between each pair of cities
-def _find_initial_distances():
-    for i in range(0,5000):
-        for j in range(0,5000):
+def _find_initial_distances(citycount):
+    for i in range(0,citycount):
+        for j in range(0,citycount):
             #Doesnt run on connections to itself
             if i == j:
                 pass
@@ -38,7 +38,8 @@ def _write_to_file():
 
 #External function called to run this script
 def _convert_data():
-    _create_distance_matrix()
-    _find_initial_distances()
+    citycount = int(input("How many cities do you want in your dataset?"))
+    _create_distance_matrix(citycount)
+    _find_initial_distances(citycount)
     _write_to_file()
 

@@ -1,4 +1,5 @@
 import pandas as pd
+import Pheremone_Script as ps
 import math
 import random
 import numpy
@@ -7,9 +8,12 @@ EPSILON=1e-5
 
 def _find_shortest_route():
     global pheremones, data
+    antsperiteration = int(input("How many Ants per iteration?"))
+    iterations = int(input("How many iterations?"))
     data = pd.read_csv("converteddata.csv")
-    pheremones = pd.read_csv("finalpheremones.csv")
-    _run_ants()
+    ps._generate_pheremones(data.shape[0])
+    pheremones = pd.read_csv("pheremones.csv")
+    _run_ants(antsperiteration, iterations)
 
 def _degrade_pheremones(pheremone):
     if pheremone == -1:
@@ -41,7 +45,6 @@ def _traverse_graph(startnode):
         for i in range(0,data.shape[0]):
             if visitedList[i] != 0:
                 pheromone_level = max(pheremones.iat[currentnode, i], EPSILON) #constant added to encourage exploration
-                #v = (pheromone_level**ALPHA ) / (data.iat[currentnode, i]**BETA)
                 v = math.pow(pheromone_level,ALPHA) / math.pow(data.iat[currentnode, i], BETA)
                 jumps_neighbors.append(i)
                 jumps_values.append(v)
@@ -55,20 +58,17 @@ def _traverse_graph(startnode):
         visitedList[next_node] = 0
         currentnode = next_node
         
-    #_apply_pheremone(route)
     return route, totaldistance
 
 
-def _run_ants():
+def _run_ants(antsperiteration, iterations):
     global pheremones
-    antsperiteration = int(input("How many Ants per iteration?"))
-    iterations = int(input("How many iterations?"))
+    
     bestroute = []
     bestdistance = 0
     for i in range(0, iterations):
         antRouteList = [_traverse_graph(random.randint(0,data.shape[0])) for i in range (0, antsperiteration)]
         antRouteList.sort(key = lambda x: x[1])
-        #route, totaldistance = _traverse_graph(0)
         for j in range(0,len(antRouteList)):
             _add_pheremones(antRouteList[j][0])
         if bestroute == []:
@@ -84,12 +84,21 @@ def _run_ants():
         print(pheremones)
     print(bestroute)
     print(bestdistance)
-    #_write_to_file()
+    _write_best_distance_to_file(bestroute, bestdistance)
+    #_write_pheremones_to_file()
   
-def _write_to_file():
+def _write_pheremones_to_file():
     pheremones.to_csv('finalpheremones.csv', index = False)
 
-
+def _write_best_distance_to_file(bestroute, bestdistance):
+    #with open('Distance.txt') as file:
+        
+    
+    linesToWrite = ["Best Distance = "+str(bestdistance), "Best Route = "+str(bestroute)]
+    with open('Distance.txt', 'w') as file:
+        for line in linesToWrite:
+            file.write(line)
+            file.write("\n")
     
 
 
