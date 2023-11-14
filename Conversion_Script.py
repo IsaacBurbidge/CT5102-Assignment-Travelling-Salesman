@@ -34,7 +34,7 @@ def _find_initial_distances():
 #Saves the matrix of distances to a file
 def _write_to_file():
     dataToWrite = pd.DataFrame(tableofleastdistances)
-    dataToWrite.to_csv('coverteddata.csv', index = False)
+    dataToWrite.to_csv('converteddata.csv', index = False)
 
 #External function called to run this script
 def _convert_data():

@@ -9,14 +9,14 @@ def _display_options():
     validoptions = ["1","2","3", "4"]
     userinput = 0
     while userinput not in validoptions: 
-        print("Welcome to the Travelling Salesman Program! Please select one of the options from below!")
-        print("1. Convert Data. Please run this once on your computer before attempting to run any of the other options.")
-        print("2. Nearest Neighbour Algorithm.")
-        print("3. Ant Colony Optimisation Algorithm")
-        print("4. Exit program")
+        print("Welcome to the Travelling Salesman Program! Please select one of the options from below!\n")
+        print("1. Convert Data. Please run this once on your computer before attempting to run any of the other options.\n")
+        print("2. Nearest Neighbour Algorithm.\n")
+        print("3. Ant Colony Optimisation Algorithm\n")
+        print("4. Exit program\n")
         userinput = input("What would you like to do:")
         if userinput not in validoptions:
-             print("Please enter a valid input!")
+             print("Please enter a valid input!\n")
     return userinput
     
 def _main_menu():
