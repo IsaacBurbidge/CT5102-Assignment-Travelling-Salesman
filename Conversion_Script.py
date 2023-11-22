@@ -1,6 +1,7 @@
 import pandas as pd
 import math
 import numpy as np
+import os.path
 
 #Import Dataset
 data = pd.read_csv("cities.csv")
@@ -34,6 +35,8 @@ def _find_initial_distances(citycount):
 #Saves the matrix of distances to a file
 def _write_to_file():
     dataToWrite = pd.DataFrame(tableofleastdistances)
+    if os.path.isfile('./converteddata.csv'):
+        os.remove('converteddata.csv')
     dataToWrite.to_csv('converteddata.csv', index = False)
 
 #External function called to run this script

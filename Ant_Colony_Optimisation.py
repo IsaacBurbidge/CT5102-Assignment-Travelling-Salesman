@@ -3,6 +3,7 @@ import Pheromone_Script as ps
 import math
 import random
 import numpy
+import os.path
 
 EPSILON=1e-5
 
@@ -11,7 +12,7 @@ def _find_shortest_route():
     antsperiteration = int(input("How many Ants per iteration?"))
     iterations = int(input("How many iterations?"))
     data = pd.read_csv("converteddata.csv")
-    #ps._generate_pheromones(data.shape[0])
+    ps._generate_pheromones(data.shape[0])
     pheromones = pd.read_csv("pheromones.csv")
     _run_ants(antsperiteration, iterations)
 
@@ -24,7 +25,7 @@ def _degrade_pheromones(pheromone):
 def _add_pheromones(route):
     for i in range (0, data.shape[0]):
         nextindex = (i+1)%data.shape[0]
-        pheromones.iat[route[i],route[nextindex]] = int((pheromones.iat[route[i],route[nextindex]]*1.2)//1)
+        pheromones.iat[route[i],route[nextindex]] = pheromones.iat[route[i],route[nextindex]] + 50
 
 def _traverse_graph(startnode):
     ALPHA = 0.9
@@ -86,36 +87,31 @@ def _run_ants(antsperiteration, iterations):
     print(bestroute)
     print(bestdistance)
     _write_best_distance_to_file(bestroute, bestdistance)
-    #_write_pheromones_to_file()
+    _write_pheromones_to_file()
   
 def _write_pheromones_to_file():
+    if os.path.isfile('./finalpheromones.csv'):
+        os.remove('finalpheromones.csv')
     pheromones.to_csv('finalpheromones.csv', index = False)
 
 def _write_best_distance_to_file(bestroute, bestdistance):
     previousdist = math.inf
-    with open('BestDistance.txt') as file:
-        line = file.readline()
-        i = 0
-        while line:
-            if i == 0:
-                characterlist = []
-                length = ""
-                number = False
-                for j in range(0, len(line)):
-                    if line[j].isnumeric() or line[j] == ".":
-                        characterlist.append(line[j])
-                        pass
-                    else:
-                        pass
-                length = "".join(characterlist)
-                previousdist = float(length)
-                print(" a = " + str(previousdist))
-                i += 1
-            else:
-                previousroute = []
-                pass
+    if os.path.isfile('./BestDistance.txt'):
+        with open('BestDistance.txt') as file:
             line = file.readline()
-        pass
+            i = 0
+            while line:
+                if i == 0:
+                    characterlist = []
+                    length = ""
+                    for j in range(0, len(line)):
+                        if line[j].isnumeric() or line[j] == ".":
+                            characterlist.append(line[j])
+                    length = "".join(characterlist)
+                    previousdist = float(length)
+                    i += 1
+                line = file.readline()
+        
 
     if bestdistance < previousdist:
         linesToWrite = ["Best Distance: "+str(bestdistance), "Best Route: "+str(bestroute)]

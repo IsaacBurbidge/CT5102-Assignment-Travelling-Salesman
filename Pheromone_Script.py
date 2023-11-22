@@ -1,4 +1,5 @@
 import pandas as pd
+import os.path
 
 pheromonegraph = []
 
@@ -16,6 +17,8 @@ def _create_pheromone_matrix(pheromonegraphlength):
 #Saves the pheromone graph as an external file
 def _write_to_file():
     dataToWrite = pd.DataFrame(pheromonegraph)
+    if os.path.isfile('./pheromones.csv'):
+        os.remove('pheromones.csv')
     dataToWrite.to_csv('pheromones.csv', index = False)
 
 #External function called to run this script
