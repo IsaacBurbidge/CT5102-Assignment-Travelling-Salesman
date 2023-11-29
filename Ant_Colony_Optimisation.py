@@ -9,12 +9,14 @@ EPSILON=1e-5
 
 def _find_shortest_route():
     global pheromones, data
+    previousdist, previousroute = _read_from_file()
     antsperiteration = int(input("How many Ants per iteration?"))
     iterations = int(input("How many iterations?"))
     data = pd.read_csv("converteddata.csv")
+    loaddata = _check_to_load_data(previousroute)
     ps._generate_pheromones(data.shape[0])
     pheromones = pd.read_csv("pheromones.csv")
-    _run_ants(antsperiteration, iterations)
+    _run_ants(antsperiteration, iterations, previousdist, previousroute, loaddata)
 
 def _degrade_pheromones(pheromone):
     if pheromone == -1:
@@ -63,11 +65,16 @@ def _traverse_graph(startnode):
     return route, totaldistance
 
 
-def _run_ants(antsperiteration, iterations):
+def _run_ants(antsperiteration, iterations, previousdist, previousroute, loaddata):
     global pheromones
     
     bestroute = []
     bestdistance = 0
+    if loaddata:
+        print("loaded")
+        bestroute = previousroute
+        bestdistance = previousdist
+
     for i in range(0, iterations):
         antRouteList = [_traverse_graph(random.randint(0,data.shape[0]-1)) for i in range (0, antsperiteration)]
         antRouteList.sort(key = lambda x: x[1])
@@ -120,6 +127,48 @@ def _write_best_distance_to_file(bestroute, bestdistance):
                 file.write(line)
                 file.write("\n")
         
+def _read_from_file():
+    route = []
+    if os.path.isfile('./CurrentBestDistance.txt'):
+        with open('CurrentBestDistance.txt') as file:
+            line = file.readline()
+            i = 0
+            isReadingRoute = False
+            previousCharacter = ''
+            while line:
+                if i == 0:
+                    characterlist = []
+                    length = ""
+                    for j in range(0, len(line)):
+                        if line[j].isnumeric() or line[j] == ".":
+                            characterlist.append(line[j])
+                    length = "".join(characterlist)
+                    dist = float(length)
+                    i += 1
+                else:
+                    currentIndex = ""
+                    for j in range(0, len(line)):
+                        if previousCharacter == ":" and line[j] == " ":
+                            isReadingRoute = True
+                        elif isReadingRoute:
+                            if line[j].isnumeric():
+                                currentIndex += line[j]
+                            elif line[j] == "," or line[j] == "]":
+                                route.append(int(currentIndex))
+                                currentIndex = ""
+                            pass
+                        previousCharacter = line[j]
+                    pass
+                line = file.readline()
+    print(dist)
+    print(route)
+    
+    return dist, route
 
-
+def _check_to_load_data(route):
+    if len(route) == data.shape[0]:
+        useloadeddata = input("Would you like to load data? Y/N")
+        if useloadeddata == "Y":
+            return True
+    return False
 
