@@ -15,7 +15,7 @@ def _find_shortest_route():
     data = pd.read_csv("converteddata.csv")
     loaddata = _check_to_load_data(previousroute)
     ps._generate_pheromones(data.shape[0])
-    pheromones = pd.read_csv("finalpheromones.csv")
+    pheromones = pd.read_csv("pheromones.csv")
     _run_ants(antsperiteration, iterations, previousdist, previousroute, loaddata)
 
 def _degrade_pheromones(pheromone):
@@ -134,8 +134,8 @@ def _write_best_distance_to_file(bestroute, bestdistance):
         
 def _read_from_file():
     route = []
-    if os.path.isfile('./CurrentBestDistance.txt'):
-        with open('CurrentBestDistance.txt') as file:
+    if os.path.isfile('./BestDistance.txt'):
+        with open('BestDistance.txt') as file:
             line = file.readline()
             i = 0
             isReadingRoute = False
@@ -165,8 +165,6 @@ def _read_from_file():
                         previousCharacter = line[j]
                     pass
                 line = file.readline()
-    print(dist)
-    print(route)
     
     return dist, route
 
