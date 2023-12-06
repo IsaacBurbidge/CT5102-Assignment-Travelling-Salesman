@@ -15,7 +15,7 @@ def _find_shortest_route():
     data = pd.read_csv("converteddata.csv")
     loaddata = _check_to_load_data(previousroute)
     ps._generate_pheromones(data.shape[0])
-    pheromones = pd.read_csv("pheromones.csv")
+    pheromones = pd.read_csv("finalpheromones.csv")
     _run_ants(antsperiteration, iterations, previousdist, previousroute, loaddata)
 
 def _degrade_pheromones(pheromone):
@@ -61,7 +61,11 @@ def _traverse_graph(startnode):
         totaldistance += data.iat[currentnode, next_node]
         visitedList[next_node] = 0
         currentnode = next_node
-        
+
+    if len(route) == data.shape[0]:
+        route.append(startnode)
+
+    
     return route, totaldistance
 
 
@@ -91,6 +95,7 @@ def _run_ants(antsperiteration, iterations, previousdist, previousroute, loaddat
         print(bestdistance)
         pheromones = pheromones.map(_degrade_pheromones)
         print(pheromones)
+        _write_best_distance_to_file(bestroute, bestdistance)
     print(bestroute)
     print(bestdistance)
     _write_best_distance_to_file(bestroute, bestdistance)
@@ -166,7 +171,7 @@ def _read_from_file():
     return dist, route
 
 def _check_to_load_data(route):
-    if len(route) == data.shape[0]:
+    if len(route)-1 == data.shape[0]:
         useloadeddata = input("Would you like to load data? Y/N")
         if useloadeddata == "Y":
             return True
