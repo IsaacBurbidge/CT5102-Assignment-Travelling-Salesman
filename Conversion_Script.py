@@ -8,7 +8,7 @@ data = pd.read_csv("cities.csv")
 
 tableofleastdistances = []
 
-#Initialises a 5000x5000 matrix (the benchmark)
+#Initialises a matrix of size Y x Y
 def _create_distance_matrix(citycount):
     for i in range(0,citycount):
         nullList = []
@@ -41,7 +41,7 @@ def _write_to_file():
 
 #External function called to run this script
 def _convert_data():
-    citycount = int(input("How many cities do you want in your dataset?"))
+    citycount = int(input("How many cities do you want in your dataset?")) # the size of the matrix
     _create_distance_matrix(citycount)
     _find_initial_distances(citycount)
     _write_to_file()

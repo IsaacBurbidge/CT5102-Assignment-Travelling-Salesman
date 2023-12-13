@@ -3,6 +3,7 @@ import Nearest_Neighbour as nn
 import Ant_Colony_Optimisation as aco
 import math
 
+#This displays all the useable options to the user.
 def _display_options():
     validoptions = ["1","2","3", "4"]
     userinput = 0
@@ -17,26 +18,25 @@ def _display_options():
              print("Please enter a valid input!\n")
     return userinput
     
+#While the program is running, it will get an option from the function above and then carry out that action
 def _main_menu():
     while True:
         userinput = _display_options()
         match userinput:
             case "1":
-                cs._convert_data()
+                cs._convert_data() # get a distance matrix of size X
                 print("\n\n\n\n")
             case "2":
-                nn._route_finder(0)
+                nn._route_finder(0) # perform a nearest neighbour algorithm on the data set
                 print("\n\n\n\n")
             case "3":
-                aco._find_shortest_route()
+                aco._find_shortest_route() # perform an ant colony optimisation algorithm on the data set 
                 print("\n\n\n\n")
             case "4":
                 exit()
     
-
 def main():
     _main_menu()
-
 
 main()
 

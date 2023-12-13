@@ -1,9 +1,10 @@
 import pandas as pd
 import os.path
 
+
 pheromonegraph = []
 
-#Initialises a 5000x5000 matrix
+#Initialises a Y x Y matrix
 def _create_pheromone_matrix(pheromonegraphlength):
     for i in range(0,pheromonegraphlength):
         pheromoneList = []
@@ -23,6 +24,10 @@ def _write_to_file():
 
 #External function called to run this script
 def _generate_pheromones(pheromonegraphlength):
-    _create_pheromone_matrix(pheromonegraphlength)
-    _write_to_file()
+    pheromones = pd.read_csv("pheromones.csv")
+    if pheromones.shape[0] == pheromonegraphlength: # used to make sure the pheromone file stays the same size as the distance matrix
+        pass
+    else:
+        _create_pheromone_matrix(pheromonegraphlength)
+        _write_to_file()
 
